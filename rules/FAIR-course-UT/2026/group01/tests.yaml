@@ -15,7 +15,20 @@ tests:
     status: 302
     location: https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/data/prepared/Meteorite_Falls_prepared.csv
 
+  # Default request receives Turtle metadata.
   - path: meta/dataset/nasa-meteorite-landings-witnessed-falls-fairified
+    status: 302
+    location: https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/metadata/records/dataset_metadata.ttl
+
+  # Browser request receives the landing page.
+  - path: meta/dataset/nasa-meteorite-landings-witnessed-falls-fairified
+    accept: text/html
+    status: 302
+    location: https://rishiraghavendran.github.io/FAIR-Meteorites-group1/
+
+  # Turtle request receives machine-readable metadata.
+  - path: meta/dataset/nasa-meteorite-landings-witnessed-falls-fairified
+    accept: text/turtle
     status: 302
     location: https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/metadata/records/dataset_metadata.ttl
 
