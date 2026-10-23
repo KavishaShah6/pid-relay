@@ -1,5 +1,8 @@
 RewriteEngine on
 
+# Indicate that responses may depend on the Accept header.
+Header merge Vary Accept
+
 # Ontology
 RewriteRule ^ont$ https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/ontology/Meteorite_Ontology.owl [R=302,L]
 
@@ -8,7 +11,17 @@ RewriteRule ^data$ https://raw.githubusercontent.com/rishiraghavendran/FAIR-Mete
 RewriteRule ^data/rdf$ https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/rdf/Meteorite_Falls_RDF.ttl [R=302,L]
 RewriteRule ^data/csv$ https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/data/prepared/Meteorite_Falls_prepared.csv [R=302,L]
 
-# Metadata records
+# Dataset: requests explicitly asking for Turtle receive metadata.
+RewriteCond %{HTTP_ACCEPT} text/turtle [NC]
 RewriteRule ^meta/dataset/nasa-meteorite-landings-witnessed-falls-fairified$ https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/metadata/records/dataset_metadata.ttl [R=302,L]
+
+# Dataset: browsers asking for HTML receive the landing page.
+RewriteCond %{HTTP_ACCEPT} text/html [NC]
+RewriteRule ^meta/dataset/nasa-meteorite-landings-witnessed-falls-fairified$ https://rishiraghavendran.github.io/FAIR-Meteorites-group1/ [R=302,L]
+
+# Dataset: other requests receive Turtle metadata.
+RewriteRule ^meta/dataset/nasa-meteorite-landings-witnessed-falls-fairified$ https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/metadata/records/dataset_metadata.ttl [R=302,L]
+
+# Distribution metadata records
 RewriteRule ^meta/distribution/meteorite-witnessed-falls-original-csv$ https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/metadata/records/distribution_csv.ttl [R=302,L]
 RewriteRule ^meta/distribution/meteorite-witnessed-falls-fairified-rdf$ https://raw.githubusercontent.com/rishiraghavendran/FAIR-Meteorites-group1/main/metadata/records/distribution_rdf.ttl [R=302,L]
